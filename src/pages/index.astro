@@ -1,0 +1,148 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Ledger from '../components/Ledger.astro';
+import Project from '../components/Project.astro';
+import portrait from '../assets/portrait.jpg';
+import { profile } from '../data/profile';
+import { projects, archive } from '../data/projects';
+import { experience } from '../data/experience';
+import { formatDate } from '../lib/date';
+
+const period = (start: string, end: string) =>
+  start === end ? formatDate(start) : `${formatDate(start)} to ${formatDate(end)}`;
+---
+
+<Base>
+  <section class="hero" aria-labelledby="name">
+    <div class="wrap">
+      <div class="grid">
+        <div class="hero-copy">
+          <h1 id="name">
+            {profile.name.split(' ').map((word, i) => (
+              <span class="line"><span style={`--i:${i}`}>{word}</span></span>
+            ))}
+          </h1>
+          <p class="lede">{profile.descriptor}</p>
+          <div class="actions">
+            <a class="btn btn-primary" href={`mailto:${profile.email}`}>Email me</a>
+            <a class="btn" href={profile.resume}>Resume (PDF)</a>
+          </div>
+        </div>
+        <div class="portrait-frame">
+          <Picture
+            class="portrait"
+            src={portrait}
+            alt="Bharathraj Subramanian seated by a window in a cafe, looking to the side"
+            widths={[320, 480, 720]}
+            sizes="(max-width: 56rem) 24rem, 30vw"
+            formats={['avif', 'webp']}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="section-title" id="work-title">Work</h2>
+        <div class="section-body">
+          {projects.map((project, i) => <Project project={project} lead={i === 0} />)}
+          <p class="archive">{archive.text}</p>
+          <p class="link-row">
+            {archive.links.map((link) => <a href={link.href} rel="noopener">{link.label}</a>)}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience" aria-labelledby="experience-title">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="section-title" id="experience-title">Experience</h2>
+        <div class="section-body reveal">
+          {
+            experience.map((role) => (
+              <article class="role">
+                <p class="mono muted">{period(role.start, role.end)}</p>
+                <div>
+                  <h3>{role.title}</h3>
+                  <p class="muted">
+                    {role.org}
+                    {role.place ? `, ${role.place}` : ''}
+                  </p>
+                  <ul>
+                    {role.points.map((point) => <li>{point}</li>)}
+                  </ul>
+                </div>
+              </article>
+            ))
+          }
+          <article class="role education">
+            <p class="mono muted">{profile.education.period}</p>
+            <div>
+              <h3>{profile.education.degree}</h3>
+              <p class="muted">{profile.education.school}</p>
+              <p class="muted">CGPA {profile.education.cgpa}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="credentials" aria-labelledby="credentials-title">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="section-title" id="credentials-title">Credentials</h2>
+        <div class="section-body">
+          <Ledger />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="stack" aria-labelledby="stack-title">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="section-title" id="stack-title">Tools</h2>
+        <div class="section-body reveal">
+          <dl class="stack">
+            {
+              profile.stack.map((row) => (
+                <div>
+                  <dt>{row.group}</dt>
+                  <dd>{row.items.join(', ')}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="section-title" id="contact-title">Contact</h2>
+        <div class="section-body">
+          <a class="contact-mail" href={`mailto:${profile.email}`}>
+            <span>{profile.email.split('@')[0]}</span><span>@{profile.email.split('@')[1]}</span>
+          </a>
+          <div class="contact-row">
+            <button class="btn" type="button" data-copy={profile.email}>Copy address</button>
+            <span class="copy-status mono muted" role="status" aria-live="polite"></span>
+          </div>
+          <p class="link-row">
+            {profile.profiles.map((p) => <a href={p.href} rel="noopener">{p.label}</a>)}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,47 @@
+/* One theme per visitor, one accent, one radius (zero). Contrast ratios noted against --paper. */
+:root {
+  --paper: #eef0f1;
+  --tint: #e3e6e8;
+  --ink: #14171a; /* 16.6:1 */
+  --muted: #566067; /* 5.7:1 */
+  --rule: #c3c9cd;
+  --accent: #c0301a; /* 5.3:1 */
+  --on-accent: #ffffff;
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --step-display: clamp(2.75rem, 1.2rem + 7.4vw, 8.25rem);
+
+  --u: 0.5rem; /* 8px baseline */
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 88rem;
+  --measure: 62ch;
+  --nav-h: 4rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #0f1214;
+    --tint: #171b1e;
+    --ink: #e9ecee; /* 15.4:1 */
+    --muted: #98a2a8; /* 7.1:1 */
+    --rule: #2b3236;
+    --accent: #ff7254; /* 7.6:1 */
+    --on-accent: #14171a;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #0f1214;
+  --tint: #171b1e;
+  --ink: #e9ecee;
+  --muted: #98a2a8;
+  --rule: #2b3236;
+  --accent: #ff7254;
+  --on-accent: #14171a;
+}

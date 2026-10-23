@@ -1,0 +1,30 @@
+---
+import { credentials } from '../data/credentials';
+import { formatDate } from '../lib/date';
+---
+
+{
+  credentials.map((group) => (
+    <div class="ledger-group reveal">
+      <h3>{group.name}</h3>
+      <ul>
+        {group.items.map((c) => (
+          <li class="ledger-row">
+            <span class="mono muted">{formatDate(c.date)}</span>
+            <span class="title">{c.title}</span>
+            <span class="muted">{c.issuer}</span>
+            <span class="muted">
+              {c.verify ? (
+                <a href={c.verify} rel="noopener">
+                  Verify on freeCodeCamp
+                </a>
+              ) : (
+                c.detail
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))
+}

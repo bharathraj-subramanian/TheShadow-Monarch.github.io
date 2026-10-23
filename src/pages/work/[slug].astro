@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import { projects, busParts } from '../../data/projects';
+
+export const getStaticPaths = (() =>
+  projects.filter((p) => p.caseStudy).map((project) => ({ params: { slug: project.slug }, props: { project } }))) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+---
+
+<Base title={`${project.title} | Bharathraj Subramanian`} description={`${project.summary} Parts, stack and how the pieces connect.`}>
+  <article>
+    <header class="case-hero">
+      <div class="wrap">
+        <a class="back" href="/#work">Back to work</a>
+        <div class="grid">
+          <h1>{project.title}</h1>
+          <p class="lede">{project.summary}</p>
+        </div>
+      </div>
+    </header>
+    <section class="section" aria-labelledby="parts-title">
+      <div class="wrap">
+        <div class="grid">
+          <h2 class="section-title" id="parts-title">Parts</h2>
+          <dl class="section-body parts reveal">
+            {
+              busParts.map((part) => (
+                <div>
+                  <dt>{part.name}</dt>
+                  <dd>{part.body}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="stack-title">
+      <div class="wrap">
+        <div class="grid">
+          <h2 class="section-title" id="stack-title">Built with</h2>
+          <p class="section-body chips mono reveal">
+            {project.stack.map((item) => <span>{item}</span>)}
+          </p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
