@@ -4,11 +4,11 @@ export const profile = {
     'Computer science undergraduate in Tamil Nadu. I build computer vision models, RFID hardware and the software around them.',
   location: 'Nagapattinam, Tamil Nadu',
   email: 'bharathrajparimala@gmail.com',
-  github: 'https://github.com/TheShadow-Monarch',
+  github: 'https://github.com/bharathraj-subramanian',
   // Taken from the previous portfolio's footer.
   profiles: [
-    { label: 'GitHub', href: 'https://github.com/TheShadow-Monarch' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/theshadowmonarch' },
+    { label: 'GitHub', href: 'https://github.com/bharathraj-subramanian' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bharathraj-subramanian-pythondev/' },
     { label: 'LeetCode', href: 'https://leetcode.com/u/Bharathraj-S/' },
     { label: 'HackerRank', href: 'https://www.hackerrank.com/profile/bharathrajparim1' },
   ],

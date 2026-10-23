@@ -71,7 +71,7 @@ export const projects: Project[] = [
       'Typed React components with Framer Motion for entrances and micro-interactions.',
     ],
     stack: ['React 18', 'Vite', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    links: [{ label: 'Source on GitHub', href: 'https://github.com/TheShadow-Monarch/project0/tree/HEAD/aegis-x' }],
+    links: [{ label: 'Source on GitHub', href: 'https://github.com/bharathraj-subramanian/project0/tree/HEAD/aegis-x' }],
   },
   {
     slug: 'eco-trace',
@@ -84,8 +84,8 @@ export const projects: Project[] = [
     ],
     stack: ['JavaScript', 'HTML', 'CSS'],
     links: [
-      { label: 'Live demo', href: 'https://theshadow-monarch.github.io/eco-trace/' },
-      { label: 'Source on GitHub', href: 'https://github.com/TheShadow-Monarch/eco-trace' },
+      { label: 'Live demo', href: 'https://bharathraj-subramanian.github.io/eco-trace/' },
+      { label: 'Source on GitHub', href: 'https://github.com/bharathraj-subramanian/eco-trace' },
     ],
   },
 ];
@@ -93,8 +93,8 @@ export const projects: Project[] = [
 export const archive = {
   text: 'Smaller exercises on GitHub: PyQt6 apps, data structures, a URL shortener and a socket chat.',
   links: [
-    { label: 'Python_Projects', href: 'https://github.com/TheShadow-Monarch/Python_Projects' },
-    { label: 'dungeon', href: 'https://github.com/TheShadow-Monarch/dungeon' },
+    { label: 'Python_Projects', href: 'https://github.com/bharathraj-subramanian/Python_Projects' },
+    { label: 'dungeon', href: 'https://github.com/bharathraj-subramanian/dungeon' },
   ],
 };
 
