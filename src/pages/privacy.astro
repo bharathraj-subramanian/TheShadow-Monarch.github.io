@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+
+const gaOn = /^G-[A-Z0-9]{4,}$/.test(String(import.meta.env.PUBLIC_GA_ID ?? ''));
+---
+
+<Base title="Privacy | Bharathraj Subramanian" description="What this site stores, what it does not collect, and how analytics works if you accept it.">
+  <section class="plain">
+    <div class="wrap">
+      <div class="grid">
+        <h1>Privacy</h1>
+        <p class="lede">
+          Short version: this site collects nothing about you unless you choose analytics. Updated 24 October 2026.
+        </p>
+        <div class="prose">
+          <h2>What is collected</h2>
+          <p>
+            Nothing by itself. There are no forms, accounts, comments or embedded third-party content. Fonts are served from this
+            site.
+          </p>
+
+          <h2>Stored on your device</h2>
+          <p>
+            Your light or dark theme choice is kept in your browser local storage so the page stays the way you left it.
+            {gaOn && ' Your analytics choice is kept there too.'} This stays on your device and is not sent anywhere.
+          </p>
+
+          <h2>Analytics</h2>
+          {
+            gaOn ? (
+              <>
+                <p>
+                  If you press Accept, Google Analytics 4 loads and counts visits and which pages are viewed, using cookies. Google
+                  signals and ad personalisation are switched off. If you decline, or never answer, no Google code runs.
+                </p>
+                <p>
+                  <button class="btn" type="button" data-consent-reset>
+                    Change my choice
+                  </button>
+                </p>
+              </>
+            ) : (
+              <p>This site does not use analytics.</p>
+            )
+          }
+
+          <h2>Hosting</h2>
+          <p>
+            The site is served by Cloudflare Pages. Cloudflare processes IP addresses and request logs to deliver and protect it,
+            under its own privacy policy.
+          </p>
+
+          <h2>If you email me</h2>
+          <p>I receive your address and what you write, and use it only to reply. It is not added to any list or shared.</p>
+
+          <h2>Links to other sites</h2>
+          <p>GitHub, LinkedIn, LeetCode, HackerRank and freeCodeCamp have their own privacy policies.</p>
+
+          <h2>Contact</h2>
+          <p><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

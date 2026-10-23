@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.astro/
+private/
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+.vscode/
+
+# Local-only working files, not part of the published site
+AGENTS.md
+PRD.md
+docs/
+tests/
+scripts/
+resume/

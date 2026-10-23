@@ -1,0 +1,40 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  lead?: boolean;
+}
+
+const { project, lead = false } = Astro.props;
+---
+
+<details class:list={['project', 'reveal', { 'is-lead': lead }]} open={lead}>
+  <summary>
+    <h3>{project.title}</h3>
+    <p class="summary-text">{project.summary}</p>
+    <span class="marker" aria-hidden="true">+</span>
+  </summary>
+  <div class="project-body">
+    <div class="inner">
+      <ul>
+        {project.points.map((point) => <li>{point}</li>)}
+      </ul>
+      <p class="chips mono">
+        {project.stack.map((item) => <span>{item}</span>)}
+      </p>
+      {
+        (project.caseStudy || project.links.length > 0) && (
+          <p class="links">
+            {project.caseStudy && <a href={`/work/${project.slug}/`}>Read how it works</a>}
+            {project.links.map((link) => (
+              <a href={link.href} rel="noopener">
+                {link.label}
+              </a>
+            ))}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</details>

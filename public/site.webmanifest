@@ -1,0 +1,11 @@
+{
+  "name": "Bharathraj Subramanian",
+  "short_name": "Bharathraj",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0f1214",
+  "background_color": "#eef0f1",
+  "display": "browser"
+}

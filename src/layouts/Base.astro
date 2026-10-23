@@ -1,0 +1,254 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/tokens.css';
+import '../styles/site.css';
+import { profile } from '../data/profile';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'Bharathraj Subramanian | Computer Vision and Full-Stack',
+  description = 'Computer science undergraduate in Tamil Nadu building computer vision models, RFID hardware and web software. Projects, internships and certificates.',
+  noindex = false,
+} = Astro.props;
+
+// Analytics stays off unless an ID is supplied at build time (PUBLIC_GA_ID=G-XXXXXXXXXX).
+const rawGaId = import.meta.env.PUBLIC_GA_ID;
+const gaId = typeof rawGaId === 'string' && /^G-[A-Z0-9]{4,}$/.test(rawGaId) ? rawGaId : undefined;
+// Astro.site comes from astro.config.mjs (SITE_URL), so these are absolute.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  email: `mailto:${profile.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Nagapattinam', addressRegion: 'Tamil Nadu', addressCountry: 'IN' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: profile.education.school },
+  sameAs: profile.profiles.map((p) => p.href),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Bharathraj Subramanian, computer science undergraduate" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#eef0f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1214" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script is:inline>
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">{profile.name}</a>
+        <nav class="nav" aria-label="Primary">
+          <a href="/#work">Work</a>
+          <a href="/#experience">Experience</a>
+          <a href="/#credentials">Credentials</a>
+          <a class="keep" href="/#contact">Contact</a>
+          <button class="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+        </nav>
+        <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" aria-label="Open menu">
+          <span class="burger" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+    <dialog id="menu" class="menu" aria-label="Site menu">
+      <div class="menu-bar wrap">
+        <a class="brand" href="/">{profile.name}</a>
+        <button class="menu-btn menu-close" type="button" aria-label="Close menu">
+          <span class="burger is-x" aria-hidden="true"></span>
+        </button>
+      </div>
+      <nav class="menu-links wrap" aria-label="Mobile">
+        <a href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#credentials">Credentials</a>
+        <a href="/#stack">Tools</a>
+        <a href="/#contact">Contact</a>
+        <button class="theme-toggle menu-theme" type="button" aria-pressed="false">Dark mode</button>
+      </nav>
+    </dialog>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap mono">
+        <span>{profile.name}, {profile.location}</span>
+        <span class="link-row">
+          {profile.profiles.map((p) => <a href={p.href} rel="noopener">{p.label}</a>)}
+          <a href="/privacy/">Privacy</a>
+        </span>
+      </div>
+    </footer>
+
+    {
+      gaId && (
+        <div class="consent" role="region" aria-label="Analytics consent" data-ga={gaId} hidden>
+          <div class="wrap consent-inner">
+            <p>
+              I use Google Analytics to count visits. It sets cookies only if you accept, and nothing from Google loads
+              before then. <a href="/privacy/">Privacy</a>
+            </p>
+            <div class="consent-actions">
+              <button class="btn" type="button" data-consent="decline">Decline</button>
+              <button class="btn" type="button" data-consent="accept">Accept</button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    <script>
+      const root = document.documentElement;
+      const toggles = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
+      const dark = () =>
+        root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      const paint = () => {
+        toggles.forEach((t) => {
+          t.textContent = dark() ? 'Light mode' : 'Dark mode';
+          t.setAttribute('aria-pressed', String(dark()));
+          t.setAttribute('aria-label', dark() ? 'Switch to light theme' : 'Switch to dark theme');
+        });
+      };
+      paint();
+      toggles.forEach((t) =>
+        t.addEventListener('click', () => {
+          const next = dark() ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('theme', next);
+          } catch {}
+          paint();
+        }),
+      );
+
+      // Full-screen menu: <dialog> supplies the focus trap and Escape.
+      const menu = document.querySelector<HTMLDialogElement>('#menu');
+      document.querySelector('.menu-btn[aria-controls="menu"]')?.addEventListener('click', () => menu?.showModal());
+      menu?.querySelector('.menu-close')?.addEventListener('click', () => menu.close());
+      menu?.querySelectorAll('.menu-links a').forEach((a) => a.addEventListener('click', () => menu.close()));
+      matchMedia('(min-width: 56.01rem)').addEventListener('change', (e) => e.matches && menu?.open && menu.close());
+
+      // Mark the section in view so the nav answers "where am I".
+      const links = [...document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="/#"]')];
+      const targets = links
+        .map((a) => document.getElementById(a.hash.slice(1)))
+        .filter((el): el is HTMLElement => !!el);
+      if (targets.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              links.forEach((a) => a.setAttribute('aria-current', String(a.hash === `#${e.target.id}`)));
+            }
+          },
+          { rootMargin: '-45% 0px -50% 0px' },
+        );
+        targets.forEach((t) => io.observe(t));
+      }
+
+      // Analytics: Google's script is only added after an explicit Accept.
+      const consent = document.querySelector<HTMLElement>('.consent');
+      if (consent) {
+        const id = consent.dataset.ga ?? '';
+        const KEY = 'analytics-consent';
+        const read = () => {
+          try {
+            return localStorage.getItem(KEY);
+          } catch {
+            return null;
+          }
+        };
+        const write = (value: string | null) => {
+          try {
+            if (value === null) localStorage.removeItem(KEY);
+            else localStorage.setItem(KEY, value);
+          } catch {}
+        };
+        const load = () => {
+          if (!/^G-[A-Z0-9]{4,}$/.test(id) || document.getElementById('ga-js')) return;
+          const w = window as any;
+          w.dataLayer = w.dataLayer || [];
+          w.gtag = function () {
+            w.dataLayer.push(arguments); // gtag.js needs the arguments object, not an array
+          };
+          w.gtag('js', new Date());
+          w.gtag('config', id, { allow_google_signals: false, allow_ad_personalization_signals: false });
+          const tag = document.createElement('script');
+          tag.id = 'ga-js';
+          tag.async = true;
+          tag.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+          document.head.append(tag);
+        };
+        const stored = read();
+        if (stored === 'granted') load();
+        else if (stored !== 'denied') consent.hidden = false;
+        consent.querySelector('[data-consent="accept"]')?.addEventListener('click', () => {
+          write('granted');
+          consent.hidden = true;
+          load();
+        });
+        consent.querySelector('[data-consent="decline"]')?.addEventListener('click', () => {
+          write('denied');
+          consent.hidden = true;
+        });
+        document.querySelectorAll('[data-consent-reset]').forEach((b) =>
+          b.addEventListener('click', () => {
+            write(null);
+            consent.hidden = false;
+          }),
+        );
+      }
+
+      // Copy the address, then say so.
+      const copy = document.querySelector<HTMLButtonElement>('[data-copy]');
+      const status = document.querySelector<HTMLElement>('.copy-status');
+      copy?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(copy.dataset.copy ?? '');
+          if (status) status.textContent = 'Copied';
+        } catch {
+          if (status) status.textContent = 'Copy failed';
+        }
+        setTimeout(() => status && (status.textContent = ''), 2000);
+      });
+    </script>
+  </body>
+</html>
