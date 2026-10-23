@@ -8,7 +8,7 @@ export const profile = {
   // Taken from the previous portfolio's footer.
   profiles: [
     { label: 'GitHub', href: 'https://github.com/TheShadow-Monarch' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/theshadowmonarch' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bharathraj-subramanian-pythondev/' },
     { label: 'LeetCode', href: 'https://leetcode.com/u/Bharathraj-S/' },
     { label: 'HackerRank', href: 'https://www.hackerrank.com/profile/bharathrajparim1' },
   ],
